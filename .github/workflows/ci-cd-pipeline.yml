@@ -51,6 +51,10 @@ jobs:
         mkdir -p $HOME/.kube  # .kube dizinini oluştur
         echo "${{ secrets.KUBECONFIG }}" > $HOME/.kube/config  # Kubeconfig dosyasını ayarla
 
+    - name: Check Kubernetes version
+      run: |
+        kubectl version --short
+
     - name: Update image tag in values.yaml
       run: |
         sed -i "s|image: \"necipulusoyy9120/spring-petclinic-app:.*\"|image: \"necipulusoyy9120/spring-petclinic-app:$TAG\"|g" helm/values.yaml
