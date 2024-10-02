@@ -48,8 +48,8 @@ jobs:
 
     - name: Set up Kubeconfig
       run: |
-        echo "${{ secrets.KUBECONFIG }}" > $HOME/.kube/config
-      # 7. Kubeconfig dosyasını ayarlama
+        mkdir -p $HOME/.kube  # .kube dizinini oluştur
+        echo "${{ secrets.KUBECONFIG }}" > $HOME/.kube/config  # Kubeconfig dosyasını ayarla
 
     - name: Update image tag in values.yaml
       run: |
