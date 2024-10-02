@@ -60,5 +60,5 @@ jobs:
 
     - name: Deploy to Kubernetes
       run: |
-        helm upgrade --install app /home/ubuntu/helm/spring-petclinic -n pet-clinic-prod
+        helm upgrade --install app /home/ubuntu/helm/spring-petclinic 
       # 9. Adım: Güncellenmiş Helm chart'ı Kubernetes cluster'ına dağıt
