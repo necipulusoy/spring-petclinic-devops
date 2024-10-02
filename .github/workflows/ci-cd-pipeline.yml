@@ -50,6 +50,7 @@ jobs:
       run: |
         mkdir -p $HOME/.kube  # .kube dizinini oluştur
         echo "${{ secrets.KUBECONFIG }}" > $HOME/.kube/config  # Kubeconfig dosyasını ayarla
+        chmod 600 $HOME/.kube/config  # Kubeconfig dosyasının izinlerini ayarla
 
     - name: Check Kubernetes version
       run: |
