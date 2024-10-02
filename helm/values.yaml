@@ -1,0 +1,70 @@
+namespace:
+  name: pet-clinic-prod  
+
+ingress:
+  serviceName: app-svc  
+  servicePort: 8080  
+
+
+# App bileşeni için değerler
+app:
+  configmap:
+    SPRING_JPA_HIBERNATE_DDL_AUTO: "update" 
+    SPRING_DATASOURCE_URL: "jdbc:mysql://mysql-svc:3306/petclinic" 
+
+  hpa:
+    maxReplicas: 3  
+    minReplicas: 1  
+    targetCPUUtilizationPercentage: 60  
+
+  deployment:
+    name: app
+    replicas: 1  
+    container:
+      image: "necipulusoyy9120/spring-petclinic-app:v1.0"  
+      name: "spring-petclinic-app"
+
+  serviceAccount:
+    automountServiceAccountToken: false 
+
+  secret:
+    SPRING_DATASOURCE_USERNAME: "petclinic"  
+    SPRING_DATASOURCE_PASSWORD: "petclinic"  
+
+  service:
+    name: app-svc
+    type: LoadBalancer  
+    port: 8080          
+    targetPort: 8080    
+    nodePort: 30001  
+
+
+
+mysql:
+  serviceAccount:
+    automountServiceAccountToken: false 
+
+  secret:
+    rootPassword: "petclinicroot" 
+    database: "petclinic"          
+    user: "petclinicuser"          
+    password: "petclinicpassword"  
+
+  service:
+    name: mysql-svc
+    type: ClusterIP  
+    port: 3306       
+    targetPort: 3306  
+
+  statefulset:
+    name: mysql
+    replicas: 1  # StatefulSet replika sayısı
+    container:
+      image: "mysql:8.0"  # MySQL container imajı
+    storageClassName: "local-path"  # Depolama sınıfı
+    storage: "1Gi"  # Depolama boyutu
+
+  pvc:
+    storageClassName: "local-path"  
+    storage: "1Gi"  
+

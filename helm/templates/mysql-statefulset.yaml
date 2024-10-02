@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Values.mysql.statefulset.name }}
+  namespace: {{ .Values.namespace.name }}
+  labels:
+    app: {{ .Values.mysql.statefulset.name }}
+spec:
+  serviceName: {{ .Release.Name }}-mysql  # MySQL servis adıyla uyumlu hale getirildi
+  replicas: {{ .Values.mysql.statefulset.replicas }}  # Replika sayısı values.yaml'dan geliyor
+  selector:
+    matchLabels:
+      app: {{ .Values.mysql.statefulset.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.mysql.statefulset.name }}
+    spec:
+      serviceAccountName: {{ .Release.Name }}-mysql-sa  # Service Account adı values.yaml'dan geliyor
+      containers:
+      - name: mysql
+        image: {{ .Values.mysql.statefulset.container.image }}  # Container imajı values.yaml'dan geliyor
+        securityContext:
+          allowPrivilegeEscalation: false
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
+        envFrom:
+        - secretRef:
+            name: {{ .Release.Name }}-mysql-secret  
+        resources:
+          limits:
+            memory: 500Mi
+            cpu: 150m
+          requests:
+            memory: 250Mi
+            cpu: 100m
+  volumeClaimTemplates:
+  - metadata:
+      name: mysql-persistent-storage
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      storageClassName: {{ .Values.mysql.statefulset.storageClassName }}  
+      resources:
+        requests:
+          storage: {{ .Values.mysql.statefulset.storage }}  
