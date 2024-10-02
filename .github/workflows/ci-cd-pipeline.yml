@@ -46,10 +46,13 @@ jobs:
         aws-region: us-east-1 
       # 6. Adım: AWS CLI'yi yapılandır
 
-    - name: Set up Kubeconfig
+     - name: Set up Kubeconfig
       run: |
         mkdir -p $HOME/.kube  # .kube dizinini oluştur
         echo "${{ secrets.KUBECONFIG }}" > $HOME/.kube/config  # Kubeconfig dosyasını ayarla
+        sed -i "s|server: https://.*|server: https://3.91.106.117:6443|g" $HOME/.kube/config  # Public IP adresini ayarla
+        sed -i "s|certificate-authority-data:.*||g" $HOME/.kube/config  # Sertifika doğrulamasını atla
+        echo "insecure-skip-tls-verify: true" >> $HOME/.kube/config  # TLS doğrulamasını atla
         chmod 600 $HOME/.kube/config  # Kubeconfig dosyasının izinlerini ayarla
 
     - name: Check Kubernetes version
