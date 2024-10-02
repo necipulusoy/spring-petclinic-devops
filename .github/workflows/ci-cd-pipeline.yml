@@ -64,11 +64,9 @@ jobs:
         sed -i "s|image: \"necipulusoyy9120/spring-petclinic-app:.*\"|image: \"necipulusoyy9120/spring-petclinic-app:$TAG\"|g" helm/values.yaml
       # 8. Adım: values.yaml dosyasındaki image değerini güncelle
 
-    - name: Deploy to Kubernetes
+     - name: Deploy to Kubernetes
       run: |
-        ls
-        helm upgrade --install app /home/ubuntu/helm/spring-petclinic 
-      # 9. Adım: Güncellenmiş Helm chart'ı Kubernetes cluster'ına dağıt
+        helm upgrade --install app ./helm/spring-petclinic -n pet-clinic-prod
 
 
 
