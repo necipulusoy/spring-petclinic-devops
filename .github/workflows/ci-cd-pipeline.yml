@@ -64,7 +64,7 @@ jobs:
         sed -i "s|image: \"necipulusoyy9120/spring-petclinic-app:.*\"|image: \"necipulusoyy9120/spring-petclinic-app:$TAG\"|g" helm/values.yaml
       # 8. Adım: values.yaml dosyasındaki image değerini güncelle
 
-     - name: Deploy to Kubernetes
+    - name: Deploy to Kubernetes
       run: |
         helm upgrade --install app ./helm/spring-petclinic -n pet-clinic-prod
 
