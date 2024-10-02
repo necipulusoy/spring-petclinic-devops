@@ -23,7 +23,7 @@ jobs:
       run: |
         TAG="v1.$(( $(git tag | wc -l) + 1 ))"  # Tag'i otomatik artır
         echo "TAG=$TAG" >> $GITHUB_ENV  # Yeni yöntemi kullan
-        docker build -t necipulusoyy9120/spring-petclinic-app:$TAG .
+        docker build -t necipulusoyy9120/spring-petclinic-app:$TAG -f application/Dockerfile .
       # 3. Adım: Docker image'ı oluştur ve tag ile etiketle
 
     - name: Login to Docker Hub
@@ -54,4 +54,4 @@ jobs:
     - name: Deploy to Kubernetes
       run: |
         helm upgrade --install app /home/ubuntu/helm/spring-petclinic -n pet-clinic-prod
-      # 8. Adım: Güncellenmiş Helm chart'ı Kubernetes cluster'ına dağıt
+      #
