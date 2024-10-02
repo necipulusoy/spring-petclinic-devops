@@ -14,7 +14,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
       # 1. Adım: Repository'deki en son kodu al
-       
+
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
       # 2. Adım: Docker Buildx'i kur
@@ -50,24 +50,18 @@ jobs:
       run: |
         mkdir -p $HOME/.kube  # .kube dizinini oluştur
         echo "${{ secrets.KUBECONFIG }}" > $HOME/.kube/config  # Kubeconfig dosyasını ayarla
-        sed -i "s|server: https://.*|server: https://3.91.106.117:6443|g" $HOME/.kube/config  # Public IP adresini ayarla
-        sed -i "s|certificate-authority-data:.*||g" $HOME/.kube/config  # Sertifika doğrulamasını atla
-        echo "insecure-skip-tls-verify: true" >> $HOME/.kube/config  # TLS doğrulamasını atla
         chmod 600 $HOME/.kube/config  # Kubeconfig dosyasının izinlerini ayarla
-
-    - name: Check Kubernetes version
-      run: |
-        kubectl version --short  # Kubeconfig içeriğini kontrol et
 
     - name: Update image tag in values.yaml
       run: |
         sed -i "s|image: \"necipulusoyy9120/spring-petclinic-app:.*\"|image: \"necipulusoyy9120/spring-petclinic-app:$TAG\"|g" helm/values.yaml
-      # 8. Adım: values.yaml dosyasındaki image değerini güncelle
+      # 7. Adım: values.yaml dosyasındaki image değerini güncelle
 
     - name: Deploy to Kubernetes
       run: |
-        helm upgrade --install app /home/ubuntu/helm/spring-petclinic -n pet-clinic-prod
-      # 9. Adım: Güncellenmiş Helm chart'ı Kubernetes cluster'ına dağıt
+        helm upgrade --install app ./helm/spring-petclinic -n pet-clinic-prod
+      # 8. Adım: Güncellenmiş Helm chart'ı Kubernetes cluster'ına dağıt
+
 
 
 
