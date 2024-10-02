@@ -57,7 +57,7 @@ jobs:
 
     - name: Check Kubernetes version
       run: |
-        kubectl version --help
+        kubectl version --short  # Kubeconfig içeriğini kontrol et
 
     - name: Update image tag in values.yaml
       run: |
@@ -66,7 +66,8 @@ jobs:
 
     - name: Deploy to Kubernetes
       run: |
-        helm upgrade --install app ./helm/spring-petclinic -n pet-clinic-prod
+        helm upgrade --install app /home/ubuntu/helm/spring-petclinic -n pet-clinic-prod
+      # 9. Adım: Güncellenmiş Helm chart'ı Kubernetes cluster'ına dağıt
 
 
 
