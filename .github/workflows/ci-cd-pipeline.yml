@@ -12,17 +12,17 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       # 1. Adım: Repository'deki en son kodu al
        
     - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
+      uses: docker/setup-buildx-action@v2
       # 2. Adım: Docker Buildx'i kur
 
     - name: Build Docker image
       run: |
         TAG="v1.$(( $(git tag | wc -l) + 1 ))"  # Tag'i otomatik artır
-        echo "TAG=$TAG" >> $GITHUB_ENV
+        echo "TAG=$TAG" >> $GITHUB_ENV  # Yeni yöntemi kullan
         docker build -t necipulusoyy9120/spring-petclinic-app:$TAG .
       # 3. Adım: Docker image'ı oluştur ve tag ile etiketle
 
@@ -43,13 +43,13 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-1  
+        aws-region: <YOUR_AWS_REGION>  # Örneğin: us-east-1
       # 6. Adım: AWS CLI'yi yapılandır
 
     - name: Update image tag in values.yaml
       run: |
-        # 7. Adım: values.yaml dosyasındaki image değerini güncelle
         sed -i "s|image: \"necipulusoyy9120/spring-petclinic-app:.*\"|image: \"necipulusoyy9120/spring-petclinic-app:$TAG\"|g" /home/ubuntu/helm/spring-petclinic/values.yaml
+      # 7. Adım: values.yaml dosyasındaki image değerini güncelle
 
     - name: Deploy to Kubernetes
       run: |
