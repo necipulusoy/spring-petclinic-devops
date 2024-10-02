@@ -43,7 +43,7 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: <YOUR_AWS_REGION>  # Örneğin: us-east-1
+        aws-region: us-east-1 
       # 6. Adım: AWS CLI'yi yapılandır
 
     - name: Update image tag in values.yaml
