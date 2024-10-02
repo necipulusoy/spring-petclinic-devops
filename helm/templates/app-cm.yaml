@@ -8,4 +8,4 @@ metadata:
 data:
   SPRING_JPA_HIBERNATE_DDL_AUTO: {{ .Values.app.configmap.SPRING_JPA_HIBERNATE_DDL_AUTO | quote }}
   SPRING_DATASOURCE_URL: {{ .Values.app.configmap.SPRING_DATASOURCE_URL | quote }}
-
+  SPRING_PROFILES_ACTIVE: {{ .Values.app.configmap.SPRING_PROFILES_ACTIVE | quote }}

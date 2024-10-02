@@ -6,8 +6,8 @@ metadata:
   labels:
     app: {{ .Values.mysql.statefulset.name }}
 spec:
-  serviceName: {{ .Release.Name }}-mysql  # MySQL servis adıyla uyumlu hale getirildi
-  replicas: {{ .Values.mysql.statefulset.replicas }}  # Replika sayısı values.yaml'dan geliyor
+  serviceName: {{ .Release.Name }}-mysql  
+  replicas: {{ .Values.mysql.statefulset.replicas }}  
   selector:
     matchLabels:
       app: {{ .Values.mysql.statefulset.name }}
@@ -16,10 +16,10 @@ spec:
       labels:
         app: {{ .Values.mysql.statefulset.name }}
     spec:
-      serviceAccountName: {{ .Release.Name }}-mysql-sa  # Service Account adı values.yaml'dan geliyor
+      serviceAccountName: {{ .Release.Name }}-mysql-sa  
       containers:
       - name: mysql
-        image: {{ .Values.mysql.statefulset.container.image }}  # Container imajı values.yaml'dan geliyor
+        image: {{ .Values.mysql.statefulset.container.image }}  
         securityContext:
           allowPrivilegeEscalation: false
         volumeMounts:
@@ -44,3 +44,4 @@ spec:
       resources:
         requests:
           storage: {{ .Values.mysql.statefulset.storage }}  
+

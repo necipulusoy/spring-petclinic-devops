@@ -23,7 +23,7 @@ spec:
                   - key: app
                     operator: In
                     values:
-                      - {{ .Release.Name }}
+                      - {{ .Values.app.deployment.name }}
               topologyKey: "kubernetes.io/hostname"
       securityContext: 
         runAsUser: 33  
@@ -49,7 +49,7 @@ spec:
           httpGet:
             path: /actuator/health
             port: 8080
-          initialDelaySeconds: 30 
+          initialDelaySeconds: 60 
           periodSeconds: 20
           timeoutSeconds: 5
           failureThreshold: 3
@@ -68,8 +68,8 @@ spec:
             name: {{ .Release.Name }}-app-secret
         resources:
           limits:
-            memory: 500Mi
-            cpu: 150m
+            memory: 1Gi
+            cpu: 250m
           requests:
-            memory: 200Mi
-            cpu: 80m
+            memory: 512Mi
+            cpu: 100m
