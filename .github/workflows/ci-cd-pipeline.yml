@@ -46,7 +46,7 @@ jobs:
         aws-region: us-east-1 
       # 6. Adım: AWS CLI'yi yapılandır
 
-     - name: Set up Kubeconfig
+    - name: Set up Kubeconfig
       run: |
         mkdir -p $HOME/.kube  # .kube dizinini oluştur
         echo "${{ secrets.KUBECONFIG }}" > $HOME/.kube/config  # Kubeconfig dosyasını ayarla
