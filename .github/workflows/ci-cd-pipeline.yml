@@ -46,15 +46,20 @@ jobs:
         aws-region: us-east-1 
       # 6. Adım: AWS CLI'yi yapılandır
 
+    - name: Set up Kubeconfig
+      run: |
+        echo "${{ secrets.KUBECONFIG }}" > $HOME/.kube/config
+      # 7. Kubeconfig dosyasını ayarlama
+
     - name: Update image tag in values.yaml
       run: |
-        sed -i "s|image: \"necipulusoyy9120/spring-petclinic-app:.*\"|image: \"necipulusoyy9120/spring-petclinic-app:$TAG\"|g" /home/ubuntu/helm/spring-petclinic/values.yaml
-      # 7. Adım: values.yaml dosyasındaki image değerini güncelle
+        sed -i "s|image: \"necipulusoyy9120/spring-petclinic-app:.*\"|image: \"necipulusoyy9120/spring-petclinic-app:$TAG\"|g" helm/values.yaml
+      # 8. Adım: values.yaml dosyasındaki image değerini güncelle
 
     - name: Deploy to Kubernetes
       run: |
         helm upgrade --install app /home/ubuntu/helm/spring-petclinic -n pet-clinic-prod
-      # 8. Adım: Güncellenmiş Helm chart'ı Kubernetes cluster'ına dağıt
+      # 9. Adım: Güncellenmiş Helm chart'ı Kubernetes cluster'ına dağıt
 
 
 
