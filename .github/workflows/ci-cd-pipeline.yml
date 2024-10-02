@@ -53,7 +53,7 @@ jobs:
 
     - name: Check Kubernetes version
       run: |
-        kubectl version --short
+        kubectl version --help
 
     - name: Update image tag in values.yaml
       run: |
